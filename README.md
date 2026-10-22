@@ -190,10 +190,6 @@ Contributions are welcome! For major changes, please open an issue to discuss yo
 
 5. Open a Pull Request.
 
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 ## 👩‍💻 Author
 
 **Meghana M**
