@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="notifications-page">
+
+    <h1>🔔 Notifications</h1>
+
+    {% if notifications %}
+
+        {% for note in notifications %}
+
+        <div class="notification-item
+            {% if not note.is_read %}unread{% endif %}">
+
+            <div class="notification-content">
+
+                <p>
+                    {{ note.message }}
+                </p>
+
+                <small>
+                    {{ note.created_at|date:"d M Y, h:i A" }}
+                </small>
+
+            </div>
+
+            <div class="notification-action">
+
+                {% if not note.is_read %}
+
+                    <a href="/notifications/read/{{ note.id }}/">
+                        Mark Read
+                    </a>
+
+                {% else %}
+
+                    <span>✓ Read</span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="no-notifications">
+
+            <div class="notification-icon">🔔</div>
+
+            <h2>No Notifications</h2>
+
+            <p>
+                You don't have any notifications at the moment.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

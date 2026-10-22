@@ -1,0 +1,447 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard-header">
+    <div>
+        <h1>Messages 💬</h1>
+        <p>Chat with employers and job seekers</p>
+    </div>
+</div>
+
+<div class="messages-container">
+
+    <!-- LEFT SIDE -->
+    <div class="chat-sidebar">
+
+        <div class="chat-search">
+            <input
+                type="text"
+                placeholder="Search conversations..."
+            >
+        </div>
+
+        <div class="chat-list">
+
+            {% for contact in contacts %}
+
+            <a href="/messages/?chat_with={{ contact.user.id }}"
+               class="chat-link">
+
+                <div class="chat-user-item {% if chat_user and chat_user.id == contact.user.id %}active{% endif %}">
+
+                    <div class="user-avatar">
+                        {{ contact.user.username|slice:":1"|upper }}
+                    </div>
+
+                    <div class="chat-user-info">
+
+                        <strong>
+                            {{ contact.user.username }}
+                        </strong>
+
+                        {% if contact.job_title %}
+                        <small>
+                            💼 {{ contact.job_title }}
+                        </small>
+                        {% endif %}
+
+                        <p>
+                            {% if contact.last_message %}
+                                {% if contact.last_message.sender == user %}
+                                    <span style="font-weight: 600; color: #5d3140;">You:</span> {{ contact.last_message.content }}
+                                {% else %}
+                                    {{ contact.last_message.content }}
+                                {% endif %}
+                            {% else %}
+                                No messages yet.
+                            {% endif %}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+            {% empty %}
+
+            <div class="no-conversations">
+                No conversations yet.
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="chat-area">
+
+        {% if chat_user %}
+
+        <!-- CHAT HEADER -->
+
+        <div class="chat-header">
+
+            <div class="user-avatar">
+                {{ chat_user.username|slice:":1"|upper }}
+            </div>
+
+            <div>
+                <h3>
+                    {{ chat_user.username }}
+                </h3>
+
+                <span class="online">
+                    ● Available
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+
+        <div
+            class="chat-messages"
+            id="chat-messages-container"
+        >
+
+            {% for msg in chat_messages %}
+
+                {% if msg.sender == user %}
+
+                <!-- SENT -->
+
+                <div class="message sent">
+
+                    <div class="message-bubble">
+                        {{ msg.content }}
+                    </div>
+
+                    <small>
+                        {{ msg.created_at|date:"d M Y, h:i A" }}
+                    </small>
+
+                </div>
+
+                {% else %}
+
+                <!-- RECEIVED -->
+
+                <div class="message received">
+
+                    <div class="message-bubble">
+                        {{ msg.content }}
+                    </div>
+
+                    <small>
+                        {{ msg.created_at|date:"d M Y, h:i A" }}
+                    </small>
+
+                </div>
+
+                {% endif %}
+
+            {% empty %}
+
+                <div class="empty-chat">
+                    Start a conversation with
+                    {{ chat_user.username }}.
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- SEND MESSAGE -->
+
+        <div class="message-input">
+
+            <form
+                method="POST"
+                action="/messages/send/"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="receiver_id"
+                    value="{{ chat_user.id }}"
+                >
+
+                <input
+                    type="text"
+                    name="content"
+                    placeholder="Type your message..."
+                    required
+                >
+
+                <button type="submit">
+                    Send ➤
+                </button>
+
+            </form>
+
+        </div>
+
+
+        {% else %}
+
+        <!-- NO CHAT SELECTED -->
+
+        <div class="no-chat">
+
+            <div class="chat-icon">
+                💬
+            </div>
+
+            <h2>
+                Select a Conversation
+            </h2>
+
+            <p>
+                Choose someone from the left to start chatting.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<style>
+
+.messages-container {
+    display: flex;
+    height: 650px;
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #f3e0e5;
+}
+
+.chat-sidebar {
+    width: 320px;
+    background: #fdf5f7;
+    border-right: 1px solid #f3e0e5;
+}
+
+.chat-search {
+    padding: 20px;
+}
+
+.chat-search input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d6c4c9;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.chat-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.chat-user-item {
+    display: flex;
+    gap: 12px;
+    padding: 15px;
+    border-bottom: 1px solid #f3e0e5;
+    cursor: pointer;
+}
+
+.chat-user-item:hover,
+.chat-user-item.active {
+    background: #f3e0e5;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    border-radius: 50%;
+    background: #5d3140;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.chat-user-info {
+    overflow: hidden;
+}
+
+.chat-user-info strong {
+    color: #3d1f2a;
+}
+
+.chat-user-info small {
+    display: block;
+    color: #8b4560;
+    margin-top: 3px;
+}
+
+.chat-user-info p {
+    margin: 5px 0 0;
+    color: #a0637a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    padding: 18px 25px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid #f3e0e5;
+}
+
+.chat-header h3 {
+    margin: 0;
+    color: #3d1f2a;
+}
+
+.online {
+    color: #22c55e;
+    font-size: 12px;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    background: #fbf8f9;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    max-width: 70%;
+}
+
+.message.sent {
+    margin-left: auto;
+    align-items: flex-end;
+}
+
+.message.received {
+    margin-right: auto;
+    align-items: flex-start;
+}
+
+.message-bubble {
+    padding: 12px 18px;
+    border-radius: 18px;
+    line-height: 1.5;
+}
+
+.sent .message-bubble {
+    background: #5d3140;
+    color: white;
+    border-radius: 18px 18px 4px 18px;
+}
+
+.received .message-bubble {
+    background: white;
+    color: #3d1f2a;
+    border: 1px solid #f3e0e5;
+    border-radius: 18px 18px 18px 4px;
+}
+
+.message small {
+    color: #a0637a;
+    margin-top: 5px;
+}
+
+.message-input {
+    padding: 18px;
+    border-top: 1px solid #f3e0e5;
+}
+
+.message-input form {
+    display: flex;
+    gap: 10px;
+}
+
+.message-input input {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid #d6c4c9;
+    border-radius: 25px;
+}
+
+.message-input button {
+    padding: 12px 25px;
+    background: #5d3140;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.no-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fbf8f9;
+}
+
+.chat-icon {
+    font-size: 50px;
+}
+
+.no-chat h2 {
+    color: #3d1f2a;
+}
+
+.no-chat p {
+    color: #a0637a;
+}
+
+.no-conversations,
+.empty-chat {
+    text-align: center;
+    padding: 30px;
+    color: #a0637a;
+}
+
+</style>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const chatBox =
+        document.getElementById("chat-messages-container");
+
+    if (chatBox) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+});
+
+</script>
+
+{% endblock %}

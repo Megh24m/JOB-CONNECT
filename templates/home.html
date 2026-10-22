@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero" style="background: #5d3140;">
+
+    <div class="hero-text">
+
+        <h1>Find Your Dream Job</h1>
+
+        <p>
+            Connect with local employers and discover opportunities near you.
+        </p>
+
+        <a href="/jobs/" class="btn" style="border-radius: 25px;">
+            Find Jobs
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- SEARCH SECTION -->
+<section class="search" style="padding: 60px 20px; background: #f8fafc; text-align: center;">
+    <h2 style="font-size: 24px; margin-bottom: 30px; font-weight: bold; color: #333;">Search Jobs</h2>
+    
+    <form action="/jobs/" method="GET" style="display: flex; justify-content: center; max-width: 900px; margin: 0 auto; gap: 15px;">
+        <input type="text" name="search" placeholder="Job title or company" style="flex: 1; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); font-size: 15px;">
+        <input type="text" name="location" placeholder="Location" style="flex: 1; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); font-size: 15px;">
+        <button type="submit" style="padding: 15px 40px; background: #5d3140; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer;">Search</button>
+    </form>
+</section>
+
+<!-- POPULAR CATEGORIES -->
+<section class="categories" style="padding: 60px 20px; background: #f8fafc; text-align: center;">
+    <h2 style="font-size: 24px; margin-bottom: 40px; font-weight: bold; color: #333;">Popular Categories</h2>
+    
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 1000px; margin: 0 auto;">
+        
+        <div style="background: white; padding: 30px 20px; border-radius: 12px; width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; cursor: pointer;">
+            <div style="font-size: 24px; margin-bottom: 10px;">💻</div>
+            <h3 style="font-size: 16px; font-weight: bold; color: #333;">IT</h3>
+        </div>
+
+        <div style="background: white; padding: 30px 20px; border-radius: 12px; width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; cursor: pointer;">
+            <div style="font-size: 24px; margin-bottom: 10px;">🏥</div>
+            <h3 style="font-size: 16px; font-weight: bold; color: #333;">Healthcare</h3>
+        </div>
+
+        <div style="background: white; padding: 30px 20px; border-radius: 12px; width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; cursor: pointer;">
+            <div style="font-size: 24px; margin-bottom: 10px;">🍽️</div>
+            <h3 style="font-size: 16px; font-weight: bold; color: #333;">Hotel</h3>
+        </div>
+
+        <div style="background: white; padding: 30px 20px; border-radius: 12px; width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; cursor: pointer;">
+            <div style="font-size: 24px; margin-bottom: 10px;">🚚</div>
+            <h3 style="font-size: 16px; font-weight: bold; color: #333;">Delivery</h3>
+        </div>
+
+        <div style="background: white; padding: 30px 20px; border-radius: 12px; width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; cursor: pointer;">
+            <div style="font-size: 24px; margin-bottom: 10px;">🚗</div>
+            <h3 style="font-size: 16px; font-weight: bold; color: #333;">Driver</h3>
+        </div>
+
+        <div style="background: white; padding: 30px 20px; border-radius: 12px; width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; cursor: pointer;">
+            <div style="font-size: 24px; margin-bottom: 10px;">📚</div>
+            <h3 style="font-size: 16px; font-weight: bold; color: #333;">Teaching</h3>
+        </div>
+
+    </div>
+</section>
+
+<!-- FEATURED JOBS -->
+<section class="featured" style="padding: 60px 20px; background: #f8fafc; text-align: center;">
+    <h2 style="font-size: 24px; font-weight: bold; color: #333;">Featured Jobs</h2>
+    <!-- (Jobs would go here) -->
+</section>
+
+{% endblock %}

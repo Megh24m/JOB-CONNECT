@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Register - Local Job Connect</title>
+
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <div class="logo">
+            💼 Local Job Connect
+        </div>
+
+        <h1>Create Account</h1>
+
+        <p class="subtitle">
+            Join and find local opportunities easily
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {% for field in form %}
+
+                <div class="input-group">
+
+                    <label>{{ field.label }}</label>
+
+                    {{ field }}
+
+                    {% if field.errors %}
+                        <small class="error">
+                            {{ field.errors }}
+                        </small>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+            <button type="submit" class="btn">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="bottom-text">
+            Already have an account?
+            <a href="/login/">
+                Login
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

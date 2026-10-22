@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="padding: 40px; background: #f4f7fb; min-height: 80vh;">
+    <h1 style="font-size: 32px; margin-bottom: 30px;">Find Jobs Near You</h1>
+
+    <form method="GET" action="/jobs/" style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: inline-flex; gap: 15px; margin-bottom: 40px; align-items: center; width: 100%; max-width: 900px;">
+        <input type="text" name="search" placeholder="Search jobs..." style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; flex: 1;">
+        <input type="text" name="location" placeholder="Location" style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; flex: 1;">
+        <select name="category" style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; flex: 1; background: white;">
+            <option value="">All Categories</option>
+            <option>Retail Shop</option>
+            <option>Supermarket</option>
+            <option>Hotel</option>
+            <option>Restaurant</option>
+            <option>Bakery</option>
+            <option>Delivery</option>
+            <option>Driver</option>
+            <option>Electrician</option>
+            <option>Plumber</option>
+            <option>Tailor</option>
+            <option>House Maid</option>
+            <option>Cook</option>
+            <option>Helper</option>
+            <option>Security</option>
+            <option>Cleaning</option>
+            <option>Receptionist</option>
+        </select>
+        <button type="submit" style="padding: 12px 30px; background: #5d3140; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Search</button>
+    </form>
+
+    <div class="jobs-container" style="margin-top: 40px; max-width: 900px;">
+        {% for job in jobs %}
+        <div class="job-card" style="background: white; padding: 22px 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; border: 1px solid #e2e8f0;">
+            <div style="flex: 1; min-width: 240px;">
+                <h3 style="font-size: 20px; color: #0f172a; margin-bottom: 5px;">{{ job.title }}</h3>
+                <p style="color: #64748b; margin-bottom: 10px; font-weight: 500;">{{ job.company }}</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; font-size: 14px; color: #475569;">
+                    <span>📍 {{ job.location }}</span>
+                    <span>📂 {{ job.category }}</span>
+                    <span>⏰ {{ job.job_type }}</span>
+                    <span>💰 ₹{{ job.salary }}</span>
+                </div>
+            </div>
+            <div style="flex-shrink: 0;">
+                <a href="/jobs/{{ job.id }}/" style="background: #5d3140; color: white; padding: 10px 22px; border-radius: 20px; text-decoration: none; font-weight: bold; white-space: nowrap; display: inline-block; min-width: max-content; text-align: center;">View Details</a>
+            </div>
+        </div>
+        {% empty %}
+        <h2 style="font-size: 24px;">No Jobs Found</h2>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,670 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div style="padding: 40px; max-width: 820px; margin: 0 auto;">
+
+    <!-- BACK TO JOBS -->
+    <a href="/jobs/"
+       style="display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              color: #5d3140;
+              text-decoration: none;
+              font-weight: 500;
+              margin-bottom: 25px;
+              font-size: 15px;">
+        ← Back to Jobs
+    </a>
+
+
+    <!-- ================= JOB INFORMATION ================= -->
+
+    <div style="background: white;
+                border: 1px solid #e2e8f0;
+                border-radius: 16px;
+                padding: 35px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+                margin-bottom: 25px;">
+
+        <!-- TITLE -->
+        <div style="display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    gap: 15px;
+                    margin-bottom: 25px;
+                    flex-wrap: wrap;">
+
+            <div>
+
+                <h1 style="font-size: 26px;
+                           color: #0f172a;
+                           margin: 0 0 8px 0;">
+                    {{ job.title }}
+                </h1>
+
+                <p style="color: #64748b;
+                          margin: 0;
+                          font-weight: 500;
+                          font-size: 16px;">
+                    {{ job.company }}
+                </p>
+
+            </div>
+
+            <span style="background: #dcfce7;
+                         color: #166534;
+                         padding: 6px 16px;
+                         border-radius: 20px;
+                         font-size: 13px;
+                         font-weight: 600;
+                         white-space: nowrap;">
+                {{ job.status }}
+            </span>
+
+        </div>
+
+
+        <!-- JOB DETAILS -->
+
+        <div style="display: flex;
+                    flex-wrap: wrap;
+                    gap: 12px;
+                    margin-bottom: 28px;">
+
+            <span style="background: #f1f5f9;
+                         color: #475569;
+                         padding: 8px 16px;
+                         border-radius: 20px;
+                         font-size: 14px;
+                         font-weight: 500;">
+                📍 {{ job.location }}
+            </span>
+
+            <span style="background: #f1f5f9;
+                         color: #475569;
+                         padding: 8px 16px;
+                         border-radius: 20px;
+                         font-size: 14px;
+                         font-weight: 500;">
+                📂 {{ job.category }}
+            </span>
+
+            <span style="background: #f3e0e5;
+                         color: #5d3140;
+                         padding: 8px 16px;
+                         border-radius: 20px;
+                         font-size: 14px;
+                         font-weight: 500;">
+                ⏰ {{ job.job_type }}
+            </span>
+
+            <span style="background: #fef3c7;
+                         color: #92400e;
+                         padding: 8px 16px;
+                         border-radius: 20px;
+                         font-size: 14px;
+                         font-weight: 500;">
+                💰 ₹{{ job.salary }}
+            </span>
+
+            <span style="background: #f1f5f9;
+                         color: #475569;
+                         padding: 8px 16px;
+                         border-radius: 20px;
+                         font-size: 14px;
+                         font-weight: 500;">
+                👥 {{ job.vacancy }}
+                Vacanc{{ job.vacancy|pluralize:"y,ies" }}
+            </span>
+
+        </div>
+
+
+        <!-- JOB DESCRIPTION -->
+
+        <div style="border-top: 1px solid #f3e0e5;
+                    padding-top: 25px;
+                    margin-bottom: 30px;">
+
+            <h3 style="font-size: 17px;
+                       color: #0f172a;
+                       margin-bottom: 12px;">
+                Job Description
+            </h3>
+
+            <p style="color: #475569;
+                      line-height: 1.7;
+                      font-size: 15px;">
+                {{ job.description }}
+            </p>
+
+        </div>
+
+
+        <!-- APPLY + SAVE -->
+
+        <div style="display: flex;
+                    gap: 15px;
+                    align-items: center;
+                    flex-wrap: wrap;">
+
+            {% if already_applied %}
+
+                <button disabled
+                        style="background-color: #cbd5e1;
+                               color: #64748b;
+                               cursor: not-allowed;
+                               border: none;
+                               padding: 13px 30px;
+                               border-radius: 30px;
+                               font-weight: 700;
+                               font-size: 15px;
+                               flex: 1;">
+                    ✓ Already Applied
+                </button>
+
+            {% else %}
+
+                <a href="/applications/apply/{{ job.id }}/"
+                   style="text-decoration: none;
+                          flex: 1;
+                          display: inline-block;">
+
+                    <button type="button"
+                            style="width: 100%;
+                                   cursor: pointer;
+                                   background: #5d3140;
+                                   color: white;
+                                   border: none;
+                                   padding: 13px 30px;
+                                   border-radius: 30px;
+                                   font-weight: 700;
+                                   font-size: 15px;">
+                        ✉ Apply Now
+                    </button>
+
+                </a>
+
+            {% endif %}
+
+
+            {% if already_saved %}
+
+                <button disabled
+                        style="background-color: #fef3c7;
+                               color: #92400e;
+                               border: none;
+                               padding: 13px 25px;
+                               border-radius: 30px;
+                               font-weight: 700;
+                               font-size: 15px;
+                               cursor: not-allowed;">
+                    ❤️ Saved
+                </button>
+
+            {% else %}
+
+                <a href="/jobs/save/{{ job.id }}/"
+                   style="text-decoration: none;">
+
+                    <button type="button"
+                            style="background-color: white;
+                                   color: #5d3140;
+                                   border: 2px solid #5d3140;
+                                   padding: 11px 25px;
+                                   border-radius: 30px;
+                                   font-weight: 700;
+                                   font-size: 15px;">
+                        ❤️ Save Job
+                    </button>
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- EMPLOYER RATINGS & REVIEWS -->
+    <!-- ================================================= -->
+
+    <div style="background: white;
+                border: 1px solid #e2e8f0;
+                border-radius: 16px;
+                padding: 35px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+
+
+        <!-- HEADER -->
+
+        <div style="display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 25px;
+                    flex-wrap: wrap;
+                    gap: 10px;">
+
+            <div>
+
+                <h2 style="font-size: 20px;
+                           color: #0f172a;
+                           margin: 0 0 4px 0;">
+                    ⭐ Employer Ratings & Reviews
+                </h2>
+
+                <p style="font-size: 14px;
+                          color: #64748b;
+                          margin: 0;">
+                    Reviews by candidates who were selected for
+                    <strong>{{ job.company }}</strong>
+                </p>
+
+            </div>
+
+
+            {% if can_review %}
+
+                <a href="/reviews/add/{{ job.id }}/"
+                   style="text-decoration: none;
+                          background: #5d3140;
+                          color: white;
+                          padding: 10px 20px;
+                          border-radius: 25px;
+                          font-weight: 600;
+                          font-size: 14px;">
+
+                    {% if existing_user_review %}
+                        ✏️ Edit Your Review
+                    {% else %}
+                        ⭐ Rate & Review
+                    {% endif %}
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- RATING SUMMARY -->
+        <!-- ================================================= -->
+
+        {% if review_count > 0 %}
+
+        <div style="background: #faf8f9;
+                    border-radius: 14px;
+                    padding: 25px;
+                    margin-bottom: 30px;">
+
+
+            <div style="display: flex;
+                        gap: 30px;
+                        align-items: center;
+                        flex-wrap: wrap;">
+
+
+                <!-- AVERAGE -->
+
+                <div style="text-align: center;
+                            min-width: 120px;">
+
+                    <div style="font-size: 56px;
+                                font-weight: 800;
+                                color: #1e293b;
+                                line-height: 1;">
+                        {{ avg_rating }}
+                    </div>
+
+
+                    <div style="font-size: 22px;
+                                color: #f59e0b;
+                                letter-spacing: 2px;
+                                margin: 4px 0;">
+
+                        {% if avg_rating >= 5 %}
+                            ★★★★★
+                        {% elif avg_rating >= 4 %}
+                            ★★★★☆
+                        {% elif avg_rating >= 3 %}
+                            ★★★☆☆
+                        {% elif avg_rating >= 2 %}
+                            ★★☆☆☆
+                        {% else %}
+                            ★☆☆☆☆
+                        {% endif %}
+
+                    </div>
+
+
+                    <div style="font-size: 13px;
+                                color: #64748b;">
+
+                        {{ review_count }}
+                        review{{ review_count|pluralize }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- SIMPLE RATING INFORMATION -->
+
+                <div style="flex: 1;
+                            min-width: 200px;">
+
+                    <div style="font-size: 14px;
+                                color: #475569;
+                                margin-bottom: 10px;
+                                font-weight: 600;">
+                        Overall Employer Rating
+                    </div>
+
+
+                    <div style="font-size: 14px;
+                                color: #64748b;
+                                line-height: 1.6;">
+
+                        ⭐ Ratings are based on reviews submitted by
+                        selected Job Seekers.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ================================================= -->
+        <!-- RATE EMPLOYER -->
+        <!-- ================================================= -->
+
+        {% if can_review and not existing_user_review %}
+
+        <div style="background: linear-gradient(135deg, #fdf5f7 0%, #fff8e1 100%);
+                    border: 1px dashed #d6c4c9;
+                    border-radius: 14px;
+                    padding: 20px 25px;
+                    margin-bottom: 25px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    gap: 15px;">
+
+            <div>
+
+                <div style="font-weight: 700;
+                            color: #5d3140;
+                            font-size: 15px;
+                            margin-bottom: 3px;">
+                    🎉 Your application was selected!
+                </div>
+
+                <div style="font-size: 13px;
+                            color: #64748b;">
+                    Share your experience working with
+                    {{ job.company }}
+                    to help other job seekers.
+                </div>
+
+            </div>
+
+
+            <a href="/reviews/add/{{ job.id }}/"
+               style="text-decoration: none;
+                      background: #5d3140;
+                      color: white;
+                      padding: 11px 22px;
+                      border-radius: 25px;
+                      font-weight: 700;
+                      font-size: 14px;">
+                ⭐ Write a Review
+            </a>
+
+        </div>
+
+
+        {% elif can_review and existing_user_review %}
+
+
+        <!-- EXISTING REVIEW -->
+
+        <div style="background: #f0fdf4;
+                    border: 1px solid #bbf7d0;
+                    border-radius: 14px;
+                    padding: 18px 25px;
+                    margin-bottom: 25px;">
+
+            <div style="font-weight: 700;
+                        color: #15803d;
+                        font-size: 14px;
+                        margin-bottom: 5px;">
+                ✅ You have reviewed this employer
+            </div>
+
+            <div style="font-size: 13px;
+                        color: #475569;">
+
+                Your rating:
+
+                <strong>
+                    {{ existing_user_review.rating }}/5 ⭐
+                </strong>
+
+                {% if existing_user_review.comment %}
+                    — "{{ existing_user_review.comment|truncatechars:60 }}"
+                {% endif %}
+
+            </div>
+
+
+            <a href="/reviews/add/{{ job.id }}/"
+               style="display: inline-block;
+                      margin-top: 12px;
+                      text-decoration: none;
+                      background: #15803d;
+                      color: white;
+                      padding: 9px 18px;
+                      border-radius: 20px;
+                      font-weight: 600;
+                      font-size: 13px;">
+                ✏️ Edit Review
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ================================================= -->
+        <!-- REVIEWS -->
+        <!-- ================================================= -->
+
+        {% if employer_reviews %}
+
+            <div style="display: flex;
+                        flex-direction: column;
+                        gap: 16px;">
+
+                {% for r in employer_reviews %}
+
+                <div style="border: 1px solid #f1f5f9;
+                            border-radius: 14px;
+                            padding: 20px 22px;
+                            background: #fafafa;">
+
+
+                    <!-- REVIEWER -->
+
+                    <div style="display: flex;
+                                justify-content: space-between;
+                                align-items: flex-start;
+                                margin-bottom: 10px;
+                                flex-wrap: wrap;
+                                gap: 8px;">
+
+
+                        <div style="display: flex;
+                                    align-items: center;
+                                    gap: 10px;">
+
+                            <!-- AVATAR -->
+
+                            <div style="width: 38px;
+                                        height: 38px;
+                                        border-radius: 50%;
+                                        background: #5d3140;
+                                        color: white;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        font-weight: 700;
+                                        font-size: 15px;">
+
+                                {{ r.reviewer.username|first|upper }}
+
+                            </div>
+
+
+                            <div>
+
+                                <div style="font-weight: 700;
+                                            color: #1e293b;
+                                            font-size: 14px;">
+
+                                    {{ r.reviewer.username }}
+
+                                    {% if r.reviewer == request.user %}
+
+                                        <span style="font-size: 11px;
+                                                     background: #5d3140;
+                                                     color: white;
+                                                     padding: 2px 8px;
+                                                     border-radius: 10px;
+                                                     margin-left: 6px;">
+                                            You
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                {% if r.created_at %}
+
+                                <div style="font-size: 12px;
+                                            color: #94a3b8;">
+                                    {{ r.created_at|date:"d M Y" }}
+                                </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STARS -->
+
+                        <div style="display: flex;
+                                    align-items: center;
+                                    gap: 5px;">
+
+                            <span style="color: #f59e0b;
+                                         font-size: 16px;">
+
+                                {% if r.rating == 5 %}
+                                    ★★★★★
+                                {% elif r.rating == 4 %}
+                                    ★★★★☆
+                                {% elif r.rating == 3 %}
+                                    ★★★☆☆
+                                {% elif r.rating == 2 %}
+                                    ★★☆☆☆
+                                {% else %}
+                                    ★☆☆☆☆
+                                {% endif %}
+
+                            </span>
+
+
+                            <span style="font-size: 13px;
+                                         font-weight: 700;
+                                         color: #475569;">
+                                {{ r.rating }}/5
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMMENT -->
+
+                    {% if r.comment %}
+
+                    <p style="color: #334155;
+                              margin: 0;
+                              font-size: 14px;
+                              line-height: 1.65;
+                              padding-left: 48px;">
+                        {{ r.comment }}
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- NO REVIEWS -->
+
+            <div style="text-align: center;
+                        padding: 50px 20px;
+                        color: #94a3b8;">
+
+                <div style="font-size: 48px;
+                            margin-bottom: 12px;">
+                    💬
+                </div>
+
+
+                <div style="font-size: 17px;
+                            font-weight: 600;
+                            color: #475569;
+                            margin-bottom: 6px;">
+                    No reviews yet
+                </div>
+
+
+                <div style="font-size: 14px;">
+                    Be the first to share your experience with
+                    {{ job.company }}
+                    after getting selected!
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard-page">
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div>
+            <h1>Welcome 👋</h1>
+        </div>
+
+        <button class="availability-btn">
+            🟢 Available for Work
+        </button>
+    </div>
+
+
+    <!-- Summary Cards -->
+    <div class="dashboard-cards">
+
+        <div class="dashboard-card">
+            <div class="card-icon">💼</div>
+            <div class="card-content">
+                <h2>{{ jobs }}</h2>
+                <h3>Available Jobs</h3>
+            </div>
+        </div>
+
+
+        <div class="dashboard-card">
+            <div class="card-icon">📝</div>
+            <div class="card-content">
+                <h2>{{ applications }}</h2>
+                <h3>Applied Jobs</h3>
+            </div>
+        </div>
+
+
+        <div class="dashboard-card">
+            <div class="card-icon">❤️</div>
+            <div class="card-content">
+                <h2>{{ saved_count }}</h2>
+                <h3>Saved Jobs</h3>
+            </div>
+        </div>
+
+
+        <div class="dashboard-card">
+            <div class="card-icon">🔔</div>
+            <div class="card-content">
+                <h2>{{ notifications_count }}</h2>
+                <h3>Notifications</h3>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Availability Section -->
+    <div class="availability-section-custom">
+
+        <h2>Availability</h2>
+
+        <button class="change-status-btn">
+            <span class="status-dot"></span>
+            Available for Work
+        </button>
+
+    </div>
+
+
+    <!-- Recent Activity -->
+    <div class="activity-section-custom">
+
+        <h2>Recent Activity</h2>
+
+        <table class="activity-table-custom">
+
+            <thead>
+                <tr>
+                    <th>Job</th>
+                    <th>Status</th>
+                    <th>Company</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for app in recent_activities %}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            {{ app.job.title }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        <span class="status {{ app.status|lower }}">
+                            {{ app.status }}
+                        </span>
+                    </td>
+
+                    <td>
+                        {{ app.job.company }}
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="3" class="empty-activity">
+                        No recent activity found.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

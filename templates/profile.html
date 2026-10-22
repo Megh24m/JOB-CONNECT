@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-page">
+
+    <div class="profile-card">
+
+        <div class="profile-banner"></div>
+
+        <div class="profile-header">
+
+            <div class="profile-avatar">
+                {{ user.username|first|upper }}
+            </div>
+
+            <div>
+                <h1>{{ user.username }}</h1>
+
+                {% if profile.role %}
+                    <p>{{ profile.role|title }}</p>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="profile-body">
+
+            {% if profile.role == 'employer' %}
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_jobs|default:"0" }}</div>
+                    <div class="stat-label">Jobs Posted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_applications|default:"0" }}</div>
+                    <div class="stat-label">Applicants</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_hired|default:"0" }}</div>
+                    <div class="stat-label">Hired</div>
+                </div>
+            </div>
+            {% else %}
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_applications|default:"0" }}</div>
+                    <div class="stat-label">Applications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ total_saved|default:"0" }}</div>
+                    <div class="stat-label">Saved Jobs</div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="profile-section">
+                <h2>Personal Information</h2>
+
+                <div class="profile-row">
+                    <strong>Username</strong>
+                    <span>{{ user.username }}</span>
+                </div>
+
+                <div class="profile-row">
+                    <strong>Email</strong>
+                    <span>{{ user.email|default:"Not provided" }}</span>
+                </div>
+
+                {% if profile.phone %}
+                <div class="profile-row">
+                    <strong>Phone</strong>
+                    <span>{{ profile.phone }}</span>
+                </div>
+                {% endif %}
+
+                {% if profile.location %}
+                <div class="profile-row">
+                    <strong>Location</strong>
+                    <span>{{ profile.location }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+
+            {% if profile.skills %}
+            <div class="profile-section">
+                <h2>Skills</h2>
+                <p class="profile-text">{{ profile.skills }}</p>
+            </div>
+            {% endif %}
+
+
+            {% if profile.bio %}
+            <div class="profile-section">
+                <h2>About</h2>
+                <p class="profile-text">{{ profile.bio }}</p>
+            </div>
+            {% endif %}
+
+
+            <div class="profile-actions">
+
+                {% if profile.role == 'employer' %}
+                    <a href="/employer-dashboard/" class="profile-button">
+                        ← Dashboard
+                    </a>
+                {% else %}
+                    <a href="/dashboard/" class="profile-button">
+                        ← Dashboard
+                    </a>
+                {% endif %}
+
+                <a href="/settings/" class="profile-button outline">
+                    ⚙️ Settings
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

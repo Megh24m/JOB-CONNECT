@@ -1,0 +1,570 @@
+/* =========================================
+   EMPLOYER DASHBOARD
+   Local Job Connect
+   ========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Poppins, sans-serif;
+}
+
+body {
+    display: flex;
+    background: #f9f4f5;
+    color: #1f2937;
+    min-height: 100vh;
+}
+
+
+/* =========================================
+   SIDEBAR
+   ========================================= */
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #3d1f2a;
+    padding: 30px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    color: white;
+    margin-bottom: 40px;
+}
+
+.sidebar a {
+    display: block;
+    color: #e8c8d0;
+    text-decoration: none;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.sidebar a:hover {
+    background: #5d3140;
+    color: white;
+}
+
+
+/* =========================================
+   MAIN CONTENT
+   ========================================= */
+
+.main {
+    margin-left: 270px;
+    padding: 40px;
+    width: calc(100% - 270px);
+}
+
+.main h1 {
+    margin-bottom: 25px;
+    color: #3d1f2a;
+}
+
+.main h2 {
+    color: #3d1f2a;
+}
+
+.main p {
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   DASHBOARD HEADER
+   ========================================= */
+
+.dashboard-header {
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+    color: #3d1f2a;
+    margin-bottom: 8px;
+}
+
+.dashboard-header p {
+    color: #8b4560;
+}
+
+
+/* =========================================
+   DASHBOARD CARDS
+   ========================================= */
+
+.cards {
+    display: flex;
+    gap: 25px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    width: 220px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(93, 49, 64, .1);
+}
+
+.card h2 {
+    color: #5d3140;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #8b4560;
+}
+
+
+/* =========================================
+   JOB / APPLICANT CARD
+   ========================================= */
+
+.job {
+    background: white;
+    padding: 25px;
+    margin: 20px 0;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(93, 49, 64, .1);
+}
+
+.job h2 {
+    margin-bottom: 12px;
+    color: #3d1f2a;
+}
+
+.job h3 {
+    margin: 10px 0;
+    color: #5d3140;
+}
+
+.job p {
+    margin: 10px 0;
+}
+
+
+/* =========================================
+   APPLICATION CARD
+   ========================================= */
+
+.application-card {
+    background: white;
+    border: 1px solid #f3e0e5;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(93, 49, 64, 0.08);
+}
+
+
+/* =========================================
+   APPLICATION TOP SECTION
+   ========================================= */
+
+.application-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    border-bottom: 1px solid #f3e0e5;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+}
+
+.application-top h2 {
+    color: #3d1f2a;
+    margin: 0 0 8px;
+}
+
+.application-top p {
+    color: #8b4560;
+    margin-bottom: 5px;
+}
+
+.application-top span {
+    color: #a0637a;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   APPLICATION STATUS & BADGES
+   ========================================= */
+
+.application-status {
+    text-align: right;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.status-badge.status-applied {
+    background: #fdf4ff;
+    color: #86198f;
+    border: 1px solid #f5d0fe;
+}
+
+.status-badge.status-viewed {
+    background: #f0f9ff;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+}
+
+.status-badge.status-shortlisted {
+    background: #fefce8;
+    color: #a16207;
+    border: 1px solid #fef08a;
+}
+
+.status-badge.status-interview {
+    background: #e0e7ff;
+    color: #3730a3;
+    border: 1px solid #c7d2fe;
+}
+
+.status-badge.status-hired, .status-badge.status-selected {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.status-badge.status-rejected {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.application-status small {
+    display: block;
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+
+/* =========================================
+   STATUS COLORS (GENERIC)
+   ========================================= */
+
+.status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 25px;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.applied { background: #86198f; }
+.status.viewed { background: #0369a1; }
+.status.shortlisted { background: #d97706; }
+.status.interview { background: #4f46e5; }
+.status.hired, .status.accepted { background: #16a34a; }
+.status.rejected { background: #dc2626; }
+
+
+/* =========================================
+   CANDIDATE RESPONSE
+   ========================================= */
+
+.candidate-response {
+    padding: 12px 16px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background: #f8f0f3;
+    color: #5d3140;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.candidate-response.accepted {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.candidate-response.declined {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+
+/* =========================================
+   APPLICANT ACTION BUTTONS
+   ========================================= */
+
+.applicant-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.applicant-actions a {
+    text-decoration: none !important;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    white-space: nowrap;
+}
+
+.applicant-actions a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+
+/* MESSAGE */
+.action-message {
+    background: #5d3140 !important;
+    color: #ffffff !important;
+}
+.action-message:hover {
+    background: #3d1f2a !important;
+}
+
+
+/* VIEW */
+.action-view {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+}
+.action-view:hover {
+    background: #0369a1 !important;
+}
+
+
+/* SHORTLIST */
+.action-shortlist {
+    background: #d97706 !important;
+    color: #ffffff !important;
+}
+.action-shortlist:hover {
+    background: #b45309 !important;
+}
+
+
+/* INTERVIEW */
+.action-interview {
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+}
+.action-interview:hover {
+    background: #4338ca !important;
+}
+
+
+/* HIRE */
+.action-hire {
+    background: #16a34a !important;
+    color: #ffffff !important;
+}
+.action-hire:hover {
+    background: #15803d !important;
+}
+
+
+/* REJECT */
+.action-reject {
+    background: #dc2626 !important;
+    color: #ffffff !important;
+}
+.action-reject:hover {
+    background: #b91c1c !important;
+}
+
+
+/* =========================================
+   OLD JOB BUTTON SUPPORT
+   ========================================= */
+
+.job button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    background: #5d3140;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.job button:hover {
+    background: #3d1f2a;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   JOB LINKS
+   ========================================= */
+
+.job a {
+    background: none;
+    padding: 0;
+    text-decoration: none;
+    color: #5d3140;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   NO APPLICANTS
+   ========================================= */
+
+.no-applicants {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 15px;
+    border: 1px solid #f3e0e5;
+    box-shadow: 0 5px 15px rgba(93, 49, 64, .08);
+}
+
+.empty-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.no-applicants h2 {
+    color: #5d3140;
+    margin-bottom: 10px;
+}
+
+.no-applicants p {
+    color: #8b4560;
+}
+
+
+/* =========================================
+   ACTIVITY SECTION
+   ========================================= */
+
+.activity-section-custom {
+    width: 100%;
+}
+
+
+/* =========================================
+   GENERAL BUTTON
+   ========================================= */
+
+button {
+    font-family: Poppins, sans-serif;
+}
+
+
+/* =========================================
+   MOBILE RESPONSIVE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    body {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 20px;
+    }
+
+    .sidebar h2 {
+        margin-bottom: 20px;
+    }
+
+    .sidebar a {
+        margin: 8px 0;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .cards {
+        flex-direction: column;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .application-top {
+        flex-direction: column;
+    }
+
+    .application-status {
+        text-align: left;
+    }
+
+    .applicant-actions {
+        flex-direction: column;
+    }
+
+    .applicant-actions a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .job button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    .main {
+        padding: 15px;
+    }
+
+    .application-card {
+        padding: 18px;
+    }
+
+    .application-top h2 {
+        font-size: 19px;
+    }
+
+    .sidebar {
+        padding: 15px;
+    }
+}

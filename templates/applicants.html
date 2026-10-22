@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+.applicant-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-top: 15px !important;
+    padding-top: 15px !important;
+    border-top: 1px solid #f1f5f9 !important;
+}
+
+.applicant-actions a {
+    text-decoration: none !important;
+    padding: 8px 16px !important;
+    border-radius: 20px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    white-space: nowrap !important;
+}
+
+.applicant-actions a:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.14) !important;
+}
+
+.action-message { background: #5d3140 !important; color: #ffffff !important; }
+.action-message:hover { background: #3d1f2a !important; }
+
+.action-view { background: #0284c7 !important; color: #ffffff !important; }
+.action-view:hover { background: #0369a1 !important; }
+
+.action-shortlist { background: #d97706 !important; color: #ffffff !important; }
+.action-shortlist:hover { background: #b45309 !important; }
+
+.action-interview { background: #4f46e5 !important; color: #ffffff !important; }
+.action-interview:hover { background: #4338ca !important; }
+
+.action-hire { background: #16a34a !important; color: #ffffff !important; }
+.action-hire:hover { background: #15803d !important; }
+
+.action-reject { background: #dc2626 !important; color: #ffffff !important; }
+.action-reject:hover { background: #b91c1c !important; }
+
+.status-badge {
+    display: inline-block !important;
+    padding: 6px 14px !important;
+    border-radius: 20px !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    letter-spacing: 0.3px !important;
+    background: #e2e8f0 !important;
+    color: #334155 !important;
+}
+
+.status-badge.status-applied { background: #fdf4ff !important; color: #86198f !important; border: 1px solid #f5d0fe !important; }
+.status-badge.status-viewed { background: #f0f9ff !important; color: #0369a1 !important; border: 1px solid #bae6fd !important; }
+.status-badge.status-shortlisted { background: #fefce8 !important; color: #a16207 !important; border: 1px solid #fef08a !important; }
+.status-badge.status-interview { background: #e0e7ff !important; color: #3730a3 !important; border: 1px solid #c7d2fe !important; }
+.status-badge.status-hired, .status-badge.status-selected { background: #dcfce7 !important; color: #15803d !important; border: 1px solid #bbf7d0 !important; }
+.status-badge.status-rejected { background: #fef2f2 !important; color: #b91c1c !important; border: 1px solid #fecaca !important; }
+</style>
+
+<div class="dashboard-header">
+    <div>
+        <h1>Job Applicants 👥</h1>
+        <p>Review candidates and manage applications</p>
+    </div>
+</div>
+
+
+<div class="activity-section-custom">
+
+    {% for application in applications %}
+
+    <div class="application-card">
+
+        <!-- JOB + APPLICANT INFORMATION -->
+        <div class="application-top">
+
+            <div>
+                <h2>{{ application.job.title }}</h2>
+
+                <p>
+                    Candidate:
+                    <strong>{{ application.applicant.username }}</strong>
+                </p>
+
+                <span>
+                    📍 {{ application.job.location }}
+                </span>
+
+                <span>
+                    | ✉ {{ application.applicant.email }}
+                </span>
+            </div>
+
+
+            <div class="application-status">
+
+                <span class="status-badge status-{{ application.status|lower }}">
+                    {{ application.status }}
+                </span>
+
+                <small>
+                    Applied on {{ application.applied_at|date:"d M Y, h:i A" }}
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- JOB SEEKER RESPONSE -->
+        {% if application.jobseeker_response %}
+
+        <div class="candidate-response">
+
+            {% if application.jobseeker_response == "yes" %}
+
+                ✅ Candidate accepted the job offer.
+
+            {% elif application.jobseeker_response == "no" %}
+
+                ❌ Candidate declined the job offer.
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ACTION BUTTONS -->
+        <div class="applicant-actions">
+
+            <a href="/messages/?chat_with={{ application.applicant.id }}"
+               class="action-message">
+                💬 Message
+            </a>
+
+
+            <a href="/applications/update/{{ application.id }}/Viewed/"
+               class="action-view">
+                👀 Viewed
+            </a>
+
+
+            <a href="/applications/update/{{ application.id }}/Shortlisted/"
+               class="action-shortlist">
+                ⭐ Shortlist
+            </a>
+
+
+            <a href="/applications/update/{{ application.id }}/Interview/"
+               class="action-interview">
+                📞 Interview
+            </a>
+
+
+            <a href="/applications/update/{{ application.id }}/Hired/"
+               class="action-hire">
+                🎉 Hire
+            </a>
+
+
+            <a href="/applications/update/{{ application.id }}/Rejected/"
+               class="action-reject">
+                ❌ Reject
+            </a>
+
+            {% if application.can_review %}
+                <a href="/reviews/add/app/{{ application.id }}/"
+                   style="background: #5d3140 !important; color: #ffffff !important;">
+                    {% if application.employer_review %}✏️ Edit Candidate Rating{% else %}⭐ Rate Candidate{% endif %}
+                </a>
+            {% endif %}
+
+        </div>
+
+        {% if application.employer_review %}
+            <div style="margin-top: 12px; font-size: 13px; color: #475569; background: #fff8e1; border: 1px solid #ffe082; padding: 10px 15px; border-radius: 10px;">
+                Your Candidate Rating: <strong>{{ application.employer_review.rating }}⭐</strong> - "{{ application.employer_review.comment }}"
+            </div>
+        {% endif %}
+
+    </div>
+
+
+
+    {% empty %}
+
+    <div class="no-applicants">
+
+        <div class="empty-icon">👥</div>
+
+        <h2>No Applicants Yet</h2>
+
+        <p>
+            Applications from job seekers will appear here
+            when they apply to your jobs.
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

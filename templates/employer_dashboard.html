@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header" style="margin-bottom: 30px;">
+        <div>
+            <h1>Welcome, Employer {{ request.user.username }} 👋</h1>
+            <p>Manage your job postings and candidate applications</p>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="dashboard-cards">
+        
+        <div class="dashboard-card blue">
+            <div class="card-icon">📋</div>
+            <div class="card-content">
+                <h2>{{ total_jobs }}</h2>
+                <h3>Total Jobs Posted</h3>
+            </div>
+        </div>
+
+        <div class="dashboard-card green">
+            <div class="card-icon">👥</div>
+            <div class="card-content">
+                <h2>{{ total_applications }}</h2>
+                <h3>Applicants</h3>
+            </div>
+        </div>
+
+        <div class="dashboard-card orange">
+            <div class="card-icon">🎉</div>
+            <div class="card-content">
+                <h2>{{ hired }}</h2>
+                <h3>Hired Candidates</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Your Posted Jobs Section -->
+    <div class="activity-section-custom">
+        <h2 style="margin-bottom: 20px; color: #3d1f2a;">Your Posted Jobs</h2>
+        
+        <div class="jobs-grid">
+            {% for job in jobs %}
+            <div class="job-card">
+                <div class="job-card-header">
+                    <div class="job-logo">💼</div>
+                    <div class="job-info">
+                        <h3>{{ job.title }}</h3>
+                        <p class="company-name">{{ job.company }}</p>
+                    </div>
+                </div>
+                
+                <div class="job-details">
+                    <span>📍 {{ job.location }}</span>
+                    <span class="job-type">📂 {{ job.category }}</span>
+                    <span>⏰ {{ job.job_type }}</span>
+                    <span>💰 ₹{{ job.salary }}</span>
+                </div>
+
+                <div class="job-actions">
+                    <a href="/jobs/{{ job.id }}/" class="btn-apply" style="text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; white-space: nowrap;">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 12px; border: 1px solid #f3e0e5;">
+                <h3 style="color: #8b4560; font-weight: normal; margin-bottom: 10px;">No Jobs Posted Yet</h3>
+                <a href="/jobs/create/" class="btn" style="display: inline-block; background: #5d3140; color: white; border-radius: 20px; padding: 10px 20px; text-decoration: none; font-weight: bold; margin-top: 10px;">Post a Job</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

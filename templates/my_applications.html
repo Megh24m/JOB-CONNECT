@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container"
+    style="padding: 40px; background: white; min-height: 80vh; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+    <h1 style="font-size: 28px; margin-bottom: 20px; color: #0f172a;">📄 My Applications</h1>
+
+    <div style="margin-top: 30px;">
+        {% for application in applications %}
+        <div class="application-card"
+            style="background: white; border: 1px solid #e2e8f0; padding: 25px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: 0.3s;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 20px;">
+                <div>
+                    <h2 style="font-size: 22px; color: #0f172a; margin: 0 0 5px 0;">{{ application.job.title }}</h2>
+                    <p style="color: #475569; margin: 0 0 5px 0; font-weight: 500;">{{ application.job.company }}</p>
+                    <span style="font-size: 13px; color: #64748b;">📍 {{ application.job.location }}</span>
+                </div>
+                <div style="text-align: right;">
+                    <span class="status {{ application.status|lower }}"
+                        style="padding: 8px 18px; border-radius: 25px; color: white; font-size: 13px; font-weight: 600; display: inline-block;">
+                        {{ application.status }}
+                    </span>
+                    <div style="margin-top: 10px;">
+                        <a href="/messages/?chat_with={{ application.job.employer.id }}"
+                            style="text-decoration: none; background: #5d3140; color: white; padding: 6px 14px; border-radius: 15px; font-size: 12px; font-weight: bold; display: inline-block;">
+                            💬 Message Employer
+                        </a>
+                    </div>
+                    <div style="font-size: 12px; color: #94a3b8; margin-top: 8px;">
+                        Applied: {{ application.applied_at|date:"d M Y" }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <h3 style="font-size: 15px; color: #475569; margin-bottom: 15px;">Status Timeline</h3>
+            <div
+                style="margin-left: 10px; border-left: 2px solid #e2e8f0; padding-left: 20px; margin-bottom: 20px; position: relative;">
+                {% for history in application.history.all %}
+                <div style="position: relative; margin-bottom: 15px;">
+                    <!-- Timeline bullet dot -->
+                    <span
+                        style="position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background-color: #5d3140; border: 2px solid white;"></span>
+                    <div style="font-weight: 600; color: #1e293b; font-size: 14px;">
+                        {{ history.status }}
+                    </div>
+                    {% if show_datetime %}
+                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
+                        {{ history.changed_at|date:"d M Y, h:i A" }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Employer Response Section -->
+            {% if application.status == 'Selected' or application.status == 'Interview' or application.status == 'Shortlisted' %}
+            {% if not application.jobseeker_response %}
+            <div
+                style="background-color: #fdf5f7; border: 1px solid #d6c4c9; border-radius: 12px; padding: 18px; margin-top: 15px;">
+                <p style="margin: 0 0 12px 0; font-weight: 600; color: #3d1f2a; font-size: 14px;">
+                    🎉 Your application has been accepted by the employer! Are you interested in this job?
+                </p>
+                <div style="display: flex; gap: 12px;">
+                    <a href="/applications/respond/{{ application.id }}/yes/"
+                        style="text-decoration: none; background-color: #22c55e; color: white; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 13px; transition: 0.3s; text-align: center;">
+                        Yes, I want this job
+                    </a>
+                    <a href="/applications/respond/{{ application.id }}/no/"
+                        style="text-decoration: none; background-color: #ef4444; color: white; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 13px; transition: 0.3s; text-align: center;">
+                        No, I am not interested
+                    </a>
+                </div>
+            </div>
+            {% elif application.jobseeker_response == 'yes' %}
+            <div
+                style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 12px 20px; color: #166534; font-weight: 600; font-size: 14px; margin-top: 15px;">
+                ✓ Job Accepted by You
+                {% if show_datetime and application.response_at %}
+                <span style="font-size: 12px; color: #15803d; font-weight: normal; margin-left: 10px;">
+                    on {{ application.response_at|date:"d M Y, h:i A" }}
+                </span>
+                {% endif %}
+            </div>
+            {% elif application.jobseeker_response == 'no' %}
+            <div
+                style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 12px 20px; color: #991b1b; font-weight: 600; font-size: 14px; margin-top: 15px;">
+                ✗ Job Declined by You
+                {% if show_datetime and application.response_at %}
+                <span style="font-size: 12px; color: #b91c1c; font-weight: normal; margin-left: 10px;">
+                    on {{ application.response_at|date:"d M Y, h:i A" }}
+                </span>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+
+            <!-- Review Section (Only allowed after Selected status) -->
+
+            {% if application.can_review %}
+            {% if application.review %}
+            <div
+                style="margin-top: 15px; padding: 18px 20px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: #f0fdf4; border: 1px solid #bbf7d0;">
+                <div>
+                    <div style="font-weight: 700; color: #15803d; font-size: 14px; margin-bottom: 3px;">✅ Review
+                        Submitted</div>
+                    <div style="font-size: 13px; color: #475569;">
+                        Your Rating: <strong>{{ application.review.rating }}/5 ⭐</strong> — "{{
+                        application.review.comment|truncatechars:60 }}"
+                    </div>
+                </div>
+                <a href="/reviews/add/{{ application.job.id }}/"
+                    style="text-decoration: none; padding: 9px 20px; border-radius: 20px; font-weight: 700; font-size: 13px; display: inline-block; white-space: nowrap; background: #15803d; color: white;">
+                    ✏️ Edit Review
+                </a>
+            </div>
+            {% else %}
+            <div
+                style="margin-top: 15px; padding: 18px 20px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: #faf5f7; border: 1px dashed #d6c4c9;">
+                <div>
+                    <div style="font-weight: 700; color: #5d3140; font-size: 14px; margin-bottom: 3px;">⭐ Rate &amp;
+                        Review Employer</div>
+                    <div style="font-size: 13px; color: #64748b;">
+                        🎉 Your application was <strong>{{ application.status }}</strong>! Share your experience with
+                        <strong>{{ application.job.company }}</strong>.
+                    </div>
+                </div>
+                <a href="/reviews/add/{{ application.job.id }}/"
+                    style="text-decoration: none; padding: 9px 20px; border-radius: 20px; font-weight: 700; font-size: 13px; display: inline-block; white-space: nowrap; background: #5d3140; color: white;">
+                    ⭐ Write Review
+                </a>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+
+        {% empty %}
+        <div style="text-align: center; padding: 60px 20px;">
+            <div style="font-size: 40px; margin-bottom: 20px;">📂</div>
+            <h2 style="font-size: 20px; color: #475569; font-weight: 600; margin-bottom: 10px;">No applications yet</h2>
+            <p style="color: #64748b; font-size: 15px; margin: 0 auto; max-width: 400px;">
+                No applications yet. Explore available jobs and apply for a suitable opportunity.
+            </p>
+            <a href="/jobs/"
+                style="display: inline-block; margin-top: 20px; background: #5d3140; color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 15px;">
+                Browse Available Jobs
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

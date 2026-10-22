@@ -1,0 +1,320 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Connect</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=4">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+<body>
+
+
+{% if '/dashboard' in request.path or '/applications/' in request.path or '/jobs/saved/' in request.path or '/jobs/recent/' in request.path or '/notifications/' in request.path or '/settings/' in request.path or '/profile/' in request.path or '/employer-dashboard' in request.path or '/applicants' in request.path or '/jobs/create' in request.path or '/messages/' in request.path %}
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    {% if request.user.is_authenticated %}
+
+    {% if request.user.profile.role == 'employer' %}
+
+    <!-- EMPLOYER SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            💼 <span>Job Connect</span>
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/employer-dashboard/">
+                    🏠 Home
+                </a>
+            </li>
+
+            <li>
+                <a href="/jobs/create/">
+                    ➕ Post a Job
+                </a>
+            </li>
+
+            <li>
+                <a href="/employer-dashboard/">
+                    📋 My Jobs
+                </a>
+            </li>
+
+            <li>
+                <a href="/applicants/">
+                    👥 Applicants
+                </a>
+            </li>
+
+            <li>
+                <a href="/notifications/">
+                    🔔 Notifications
+                </a>
+            </li>
+
+            <li>
+                <a href="/messages/">
+                    💬 Messages
+                </a>
+            </li>
+
+            <li>
+                <a href="/profile/">
+                    👤 Profile
+                </a>
+            </li>
+
+            <li>
+                <a href="/settings/">
+                    ⚙️ Settings
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout/">
+                    🚪 Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    {% else %}
+
+    <!-- JOB SEEKER SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            💼 <span>Job Connect</span>
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/dashboard/">
+                    🏠 Home
+                </a>
+            </li>
+
+            <li>
+                <a href="/jobs/">
+                    💼 Jobs
+                </a>
+            </li>
+
+            <li>
+                <a href="/dashboard/">
+                    📊 Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="/applications/">
+                    📄 My Applications
+                </a>
+            </li>
+
+            <li>
+                <a href="/jobs/saved/">
+                    ❤️ Saved Jobs
+                </a>
+            </li>
+
+            <li>
+                <a href="/jobs/recent/">
+                    👁️ Recently Viewed
+                </a>
+            </li>
+
+            <li>
+                <a href="/notifications/">
+                    🔔 Notifications
+                </a>
+            </li>
+
+            <li>
+                <a href="/messages/">
+                    💬 Messages
+                </a>
+            </li>
+
+            <li>
+                <a href="/profile/">
+                    👤 Profile
+                </a>
+            </li>
+
+            <li>
+                <a href="/settings/">
+                    ⚙️ Settings
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout/">
+                    🚪 Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    {% endif %}
+
+    {% endif %}
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <div class="main-content">
+
+{% else %}
+
+
+    <!-- ================= NORMAL NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Job Connect
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="/jobs/">
+                    Jobs
+                </a>
+            </li>
+
+
+            {% if user.is_authenticated %}
+
+            {% if user.profile.role == 'employer' %}
+
+            <li>
+                <a href="/employer-dashboard/">
+                    Dashboard
+                </a>
+            </li>
+
+            {% else %}
+
+            <li>
+                <a href="/dashboard/">
+                    Dashboard
+                </a>
+            </li>
+
+            {% endif %}
+
+
+            <li>
+                <a href="/notifications/">
+                    🔔 Notifications
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout/">
+                    Logout
+                </a>
+            </li>
+
+            {% else %}
+
+            <li>
+                <a href="/login/">
+                    Login
+                </a>
+            </li>
+
+            <li>
+                <a href="/register/">
+                    Register
+                </a>
+            </li>
+
+            {% endif %}
+
+
+            <!-- DARK / LIGHT MODE -->
+
+            <li>
+                <button id="theme-toggle">
+                    🌙
+                </button>
+            </li>
+
+        </ul>
+
+    </nav>
+
+{% endif %}
+
+
+    <!-- ================= PAGE CONTENT ================= -->
+
+    {% block content %}
+
+    {% endblock %}
+
+
+    <!-- ================= CLOSE MAIN CONTENT ================= -->
+
+{% if '/dashboard' in request.path or '/applications/' in request.path or '/jobs/saved/' in request.path or '/jobs/recent/' in request.path or '/notifications/' in request.path or '/settings/' in request.path or '/profile/' in request.path or '/employer-dashboard' in request.path or '/applicants' in request.path or '/jobs/create' in request.path or '/messages/' in request.path %}
+
+    </div>
+
+{% endif %}
+
+
+{% if request.path == '/' %}
+<footer>
+    <p>© Job Connect</p>
+</footer>
+{% endif %}
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="{% static 'js/theme.js' %}"></script>
+
+</body>
+
+</html>
